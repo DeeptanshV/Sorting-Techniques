@@ -1,13 +1,60 @@
-#include<stdio.h>
-void merge(int a[], int i1, int j1, int i2, int j2)
-{
-  int temp[50];    // temporary array used
-  int i, j, k;
-  i = i1;          // beginning of the first list
-  j = i2;          // beginning of the second list
-  k = 0;
-  while (i <= j1 && j <= j2)    // while elements in both lists
-  {
-    if(a[i]<a[j]) 
-      temp[k++]="a[i++];" 
-    else="" }="" while(i="" <="j1)" copy="" remaining="" elements="" of="" the="" first="" list="" while(j<="j2)" second="" transfer="" from="" temp[]="" back="" to="" a[]="" for(i="i1," j="0;" i="" i++,="" j++)="" a[i]="temp[j];" void="" mergesort(int="" a[],="" int="" i,="" j)="" {="" mid;="" if="" (i="" mid="(i+j)/2;" mergesort(a,="" mid);="" left="" recursion="" +="" 1,="" j);="" right="" merge(a,="" mid,="" 1="" ,j);="" merging="" two="" sorted="" sub-arrays="" main()="" a[30],="" n,="" i;="" printf("enter="" no="" elements:");="" scanf("%d",="" &n);="" array="" n;="" i++)="" &a[i]);="" 0,="" n-1);="" printf("\nsorted="" is="" :");="" printf("%d="" ",="" a[i]);="" return="" 0;="" }<="" pre=""> <p><strong>Properties</strong></p> <ul><li><strong>Average Time Complexity:</strong> O(n log n)</li> <li><strong>Stability:</strong> Stable</li></ul> <p><strong>Best use case</strong></p> <p>This sort can be used on any size of data unlike other sorts that work well on smaller sets. The data is read in a sequential manner during sorting, hence magnetic tapes could be used to feed the data.</p> <h2 id="visualizations">Visualizations</h2> <ul><li><a href="https://visualgo.net/bn/sorting">Sorting | VisuAlgo</a></li> <li><a href="https://www.cs.usfca.edu/~galles/visualization/ComparisonSort.html">Comparison Sorting Algorithms | University of San Francisco</a> </li> <li><a href="http://sorting.at/">SORTING | Carlo Zapponi</a></li></ul> <h2 id="code-examples">Code Examples</h2> <p>Link to Github snippets, in C onsite…</p> <h2 id="videos">Videos</h2> <p><strong>Shorter</strong></p> <ul><li><a href="https://www.youtube.com/watch?v=RT-hUXUWQ2I">Bubble Sort | CS50</a></li> <li><a href="https://www.youtube.com/watch?v=O0VbBkUvriI">Insertion Sort | CS50</a></li> <li><a href="https://www.youtube.com/watch?v=3hH8kTHFw2A">Selection Sort | CS50</a></li> <li><a href="https://www.youtube.com/watch?v=kUon6854joI">Quick Sort | CS50</a></li> <li><a href="https://www.youtube.com/watch?v=Ns7tGNbtvV4">Merge Sort | CS50</a></li></ul> <p><strong>Longer</strong></p> <ul><li><a href="https://www.youtube.com/watch?v=jUyQqLvg8Qw">CS50 2016 – Week 3 | Algorithms</a> The complete lecture of CS50 week 3 algorithms. Covers all the important searching and sorting algorithm.</li></ul></a[j])></stdio.h>
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    // Function to merge two halves of the array
+    void merge(vector<int>& arr, int low, int mid, int high) {
+        // Create temp arrays
+        vector<int> temp;
+        int left = low, right = mid + 1;
+
+        // Merge two sorted halves
+        while (left <= mid && right <= high) {
+            if (arr[left] <= arr[right])
+                temp.push_back(arr[left++]);
+            else
+                temp.push_back(arr[right++]);
+        }
+
+        // Copy remaining elements from left half
+        while (left <= mid)
+            temp.push_back(arr[left++]);
+
+        // Copy remaining elements from right half
+        while (right <= high)
+            temp.push_back(arr[right++]);
+
+        // Copy sorted elements back to original array
+        for (int i = low; i <= high; i++)
+            arr[i] = temp[i - low];
+    }
+
+    // Recursive merge sort function
+    void mergeSort(vector<int>& arr, int low, int high) {
+        if (low >= high)
+            return;
+
+        // Find the middle index
+        int mid = (low + high) / 2;
+
+        // Recursively sort left half
+        mergeSort(arr, low, mid);
+
+        // Recursively sort right half
+        mergeSort(arr, mid + 1, high);
+
+        // Merge the two sorted halves
+        merge(arr, low, mid, high);
+    }
+};
+
+int main() {
+    vector<int> arr = {5, 2, 8, 4, 1};
+    Solution sol;
+    sol.mergeSort(arr, 0, arr.size() - 1);
+    for (int x : arr)
+        cout << x << " ";
+    cout << endl;
+    return 0;
+}
